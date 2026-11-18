@@ -13,7 +13,7 @@ def check(label, condition):
 check('Prompt <=8000 LF characters', len(prompt) <= 8000)
 check('Prompt <=8000 CRLF characters', len(prompt.replace('\n', '\r\n')) <= 8000)
 check('Prompt references exact table filename', 'PARN_Terminology_Table.txt' in prompt)
-check('Attachment review output category exists', '- Attachment review:' in prompt)
+check('Attachment review output category exists', 'Technician note, Attachment review, Internal knowledge' in prompt)
 check('Ticket attachments default to internal review', 'Route all readable ticket-relevant content to `Attachment review` by default' in prompt)
 check('Relevant attachment evidence may enter PARN', 'directly supports public technician notes' in prompt and 'proper PARN section' in prompt)
 check('Attachment output is not assumed technician work', 'does not prove who performed work' in prompt)
