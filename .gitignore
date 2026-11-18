@@ -1,0 +1,30 @@
+# Local deployment/configuration overrides
+config.local.yaml
+config.*.local.yaml
+.env
+.env.*
+!.env.example
+
+# Never commit real-world customer evidence, recordings, or exports
+private/
+secrets/
+ticket-evidence/
+customer-data/
+recordings/
+screenshots/private/
+logs/private/
+
+# Common sensitive credential and certificate containers
+*.pfx
+*.p12
+*.pem
+*.key
+
+# Editor/system artifacts
+.DS_Store
+Thumbs.db
+
+# Locally built skill packages
+dist/
+__pycache__/
+*.pyc

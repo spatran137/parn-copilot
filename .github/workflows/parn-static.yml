@@ -1,0 +1,44 @@
+name: PARN static checks
+
+on:
+  push:
+    paths:
+      - 'agent/**'
+      - 'skills/**'
+      - 'packages/**'
+      - 'scripts/build-skills.py'
+      - 'tests/**'
+      - '.github/workflows/parn-static.yml'
+  pull_request:
+    paths:
+      - 'agent/**'
+      - 'skills/**'
+      - 'packages/**'
+      - 'scripts/build-skills.py'
+      - 'tests/**'
+      - '.github/workflows/parn-static.yml'
+
+jobs:
+  static-examples:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check static examples and instruction length
+        run: python3 tests/validate_parn_examples.py
+      - name: Check optional email rules and synthetic cases
+        run: python3 tests/validate_email_rules.py
+      - name: Check email actor attribution rules
+        run: python3 tests/validate_email_attribution_rules.py
+      - name: Check same-ticket history preservation
+        run: python3 tests/validate_ticket_history_rules.py
+      - name: Check material PARN evidence rules
+        run: python3 tests/validate_performed_evidence_rules.py
+      - name: Check closure-intent routing rules
+        run: python3 tests/validate_ticket_closure_rules.py
+      - name: Verify skill packages
+        run: python3 scripts/build-skills.py --check

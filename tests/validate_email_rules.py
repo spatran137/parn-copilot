@@ -1,0 +1,86 @@
+"""Source-contract and hand-written scenario checks; not a Copilot/model evaluation."""
+from pathlib import Path
+
+root = Path(__file__).resolve().parent.parent
+prompt = (root / "agent" / "ConnectWise_PARN_Agent_Instructions_Condensed.md").read_text()
+cases = (root / "tests" / "Client_Email_Scenarios.md").read_text()
+
+checks = {
+    "LF prompt fits 8,000 characters": len(prompt) <= 8000,
+    "CRLF prompt fits 8,000 characters": len(prompt.replace("\n", "\r\n")) <= 8000,
+    "Email remains on-demand": "on-demand client emails" in prompt,
+    "No unsolicited email-choice questions": "Never ask" in prompt and "Is a client follow-up email needed? (Yes/No)" not in prompt,
+    "Standard only on explicit technician request": "Draft Standard ONLY on explicit tech request" in prompt and "How technical?" not in prompt,
+    "No request defaults to no draft": "No email by default" in prompt,
+    "No email placeholder": r"Client Follow-Up Email:\nNot needed." in prompt,
+    "No prior depth/skip interaction": "Skip/unknown" not in prompt and "How technical?" not in prompt,
+    "Same-ticket explicit request persists": "Carry request on same ticket until changed" in prompt,
+    "Unresolved client impact retained": "Recap supplied work/status/next steps" in prompt and "client confirmation isn" in prompt,
+    "Solo and joint attribution": "Use `I` for solo work; `we` only for proven joint work." in prompt,
+    "Natural prose and formatting": "conversational sentences, not em dashes, double-dashes" in prompt,
+    "Internal-only content excluded": "no raw logs/internal content" in prompt,
+    "Three output blocks retained": "return exactly three plain-text code blocks" in prompt,
+    "Twenty-four synthetic scenarios including archived": all(
+        f"### {i}. " in cases for i in range(1, 25)
+    ),
+    "Current on-demand workflow documented": "Current candidate: On-demand Standard only" in cases,
+    "Planned or historic email mentions do not trigger": "ignore past/planned/quoted/internal mentions" in prompt,
+    "New ticket clears request": "reset new ticket" in prompt,
+    "Email-only turns retain earlier PARN/internal verbatim": "Email-only turns must preserve PARN/internal blocks verbatim" in prompt and "### 24. Email-only turn does not rewrite PARN" in cases,
+    "Reported success does not prove technician verification": "`VPN worked` isn\u0027t `I verified` or a new test" in prompt,
+    "Explicit later request supported": "Later email request uses prior ticket context" in cases,
+    "Current cases document explicit trigger": "### 19. Explicit request in initial dictation" in cases,
+    "Current cases document explicit cancellation": "### 22. Explicit cancellation" in cases,
+    "No-email sample is explicit": "Client Follow-Up Email:\nNot needed." in cases,
+    "Unresolved simple case documented": "Simple must not hide unresolved problems" in cases,
+    "Confidentiality case documented": "No blanket disclosure of raw attachments" in cases,
+    "Internal notes require marked dictation": "Use `Technician note` only for marked internal dictation" in prompt,
+    "Log evidence is not causal proof": "Attribute log findings to actual log text, not later checks" in prompt,
+    "All blocks honor evidence boundary": "PARN/email: facts only; internal theories stay unconfirmed" in prompt,
+    "Failed real-world retest recorded": "User-provided Copilot retest observation" in cases and "Internal evidence attribution" in cases,
+    "Email can be canceled explicitly": "`No email` cancels" in prompt,
+    "Callback and VPN regression documented": "Earlier email plan superseded by a callback" in cases,
+    "No fabricated client confirmation": "Do not write \"the user confirmed access\"" in cases,
+    "No log-based invented cause": "not** that the firewall log itself diagnosed group membership" in cases,
+    "Explicit dictation triggers draft": all(k in prompt for k in ["`Draft client email`","`Include follow-up email`","`Email needed: Yes`"]),
+    "Conflicts still block before output": "STOP before final notes" in prompt and "If attachment and dictation conflict" in prompt,
+    "No email questions remain": "Never ask" in prompt and "No email by default" in prompt,
+    "Archived skipped-depth failure documented": "Yes must lead to a depth prompt" in cases and "**Historical failure:**" in cases,
+    "Historical Skip scenario preserved": "explicitly answer **Skip**" in cases,
+    "No email live test recorded": "**No** | Asked whether client email was needed" in cases,
+    "Standard depth live test recorded": "**Yes → Standard**" in cases,
+    "Detailed depth live test recorded": "**Yes → Detailed**" in cases,
+    "Unverified cases remain unclaimed": "Simple depth | Not supplied" in cases and "NOT TESTED" in cases,
+    "Live evidence and synthetic fixtures separated": "user-provided Copilot outputs and screenshots" in cases,
+    "Material ambiguity requires a pre-output question": "## MANDATORY pre-output gate" in prompt and "Ask ONE question: can that resource be accessed now? STOP" in prompt,
+    "Opposite outcomes cannot be silently corrected": "Never infer `not` means `now`" in prompt,
+    "Chronological fail and pass are not contradictory": "A failed check followed by clear success isn't a conflict" in prompt,
+    "Follow-up confirmation fixture": "Contradictory outcome: clarify a transcription error" in cases and "not' was a transcription error" in cases,
+    "Preflight before format specification": prompt.index("## MANDATORY pre-output gate") < prompt.index("# Required Output"),
+    "Broad success doesn't establish named resource": "general access may exclude it" in prompt,
+    "Live preflight failure logged": "Copilot live retest: ambiguity gate failed" in cases,
+    "Same-ticket email preference remained intact": "Simple was reused" in cases,
+    "Second live failure recorded": "Copilot retest #2: gate bypassed again" in cases,
+    "Closure intention explicitly protected": "`Closing ticket` is intent, NEVER `ticket closed` or `can close`" in prompt,
+    "Screenshot-only does not imply technician action": "Screenshot-only command/results" in prompt and "not technician Action" in prompt,
+    "Failed ping and passed TCP both enter Action": "Failed ping AND passed TCP belong in Action" in prompt,
+    "Outcome does not imply retest": "`VPN worked` isn\u0027t `I verified` or a new test" in prompt,
+    "Accessibility is not direct client confirmation": "`user can access` isn\u0027t `confirmed with client`" in prompt,
+    "Client confirmation requires direct evidence": "client confirmation ONLY if stated" in prompt,
+    "Observed invented client retest documented": "Retested access with the client" in cases,
+    "Successful live ambiguity gate reported": "Copilot retest #3: mandatory database clarification PASSED" in cases,
+    "Live wait and yes reply recorded": "and WAITED" in cases and "The technician answered **Yes**" in cases,
+    "Remaining attribution failure scoped": "not a separately performed technician retest" in cases,
+    "No-email follow-up retest recorded": "Copilot retest #4: No-email preference retained" in cases,
+    "Archived no-choice follow-up preserved": "did **not** request a technical-depth selection" in cases and "without asking again about the email preference" in cases,
+    "Second live clarification pass recorded": "second observed successful clarification run" in cases,
+    "Skip live fallback pass recorded": "Copilot retest #6: explicit Skip defaults to Standard" in cases,
+    "No extra question after Skip": "did not ask a third depth question" in cases,
+    "Skip choice reused on follow-up": "without repeating either email question" in cases,
+    "Historical Skip and unknown coverage remains archived": "Explicit `unknown`" in cases and "broader cases remain untested" in cases,
+}
+
+for label, passed in checks.items():
+    print(("PASS" if passed else "FAIL") + ": " + label)
+print(f"{sum(checks.values())}/{len(checks)} source checks passed. Copilot behavior not measured.")
+raise SystemExit(0 if all(checks.values()) else 1)

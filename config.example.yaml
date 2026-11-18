@@ -1,0 +1,68 @@
+# PARN Copilot Agent — environment-specific reference checklist
+#
+# DOCUMENTATION ONLY: This file is not automatically loaded by Microsoft 365 Copilot Agent Builder.
+# All values in [BRACKETS] are placeholders to be replaced only in an
+# approved, locally controlled deployment record. Never commit real tenant,
+# customer, ticket, device, URL, or security-system details.
+#
+# Copy to config.local.yaml for a private local checklist (.gitignored).
+# Do not store secrets in YAML; use platform-managed secret storage.
+
+project:
+  release_label: "[RELEASE_TAG_OR_COMMIT]"
+  environment: "[ENVIRONMENT_NAME]"           # e.g., a generic dev/test/prod designation
+  owner_team: "[AUTHORIZED_OWNER_TEAM]"       # not a person/customer identifier
+
+copilot:
+  agent_display_name: "[AGENT_DISPLAY_NAME]"
+  tenant_alias: "[TENANT_ALIAS]"               # alias only; avoid actual tenant ID
+  instructions_reference: "[APPROVED_INSTRUCTIONS_REFERENCE]"
+  terminology_reference: "[APPROVED_TERMINOLOGY_REFERENCE]"
+
+ticketing:
+  system: "ConnectWise"
+  service_board_reference: "[SERVICE_BOARD_REFERENCE]"
+  customer_reference: "[CUSTOMER_IDENTIFIER]" # use synthetic values for examples
+  ticket_reference: "[TICKET_IDENTIFIER]"     # do not check real ticket IDs into Git
+
+knowledge:
+  sharepoint_scope: "[AUTHORIZED_SHAREPOINT_SCOPE]"
+  teams_scope: "[AUTHORIZED_TEAMS_SCOPE]"
+  documentation_reference: "[KNOWLEDGE_SOURCE_REFERENCE]"
+
+skills:
+  internal_knowledge_review: "[KNOWLEDGE_REVIEW_SKILL_NAME]"
+  vendor_research: "[VENDOR_RESEARCH_SKILL_NAME]"
+  # Actual skill installation and permissions are managed in Copilot.
+
+privacy:
+  sensitive_value_marker: "[REDACTED]"
+  example_host: "[HOSTNAME]"
+  example_ip: "[IP_ADDRESS]"
+  example_domain: "[INTERNAL_DOMAIN]"
+  example_url: "[INTERNAL_URL]"
+  example_log_path: "[FILE_OR_UNC_PATH]"
+
+# Sanitized test identities and source-navigation labels; illustrative ONLY.
+# These bracketed markers stand in for real-world values; they should NOT be
+# replaced with live tenant/customer data inside Git.
+redaction_placeholders:
+  domain_controller: "[DOMAIN_CONTROLLER]"
+  application_server: "[APPLICATION_SERVER]"
+  file_server: "[FILE_SERVER]"
+  workstation: "[WORKSTATION]"
+  endpoint: "[ENDPOINT]"
+  example_ip_a: "[EXAMPLE_IP_A]"
+  example_ip_b: "[EXAMPLE_IP_B]"
+  example_ip_c: "[EXAMPLE_IP_C]"
+  test_portal_host: "[EXAMPLE_PORTAL_HOST]"
+  synthetic_test_token: "[SYNTHETIC_TEST_TOKEN]" # dummy fixture only
+  synthetic_test_password: "[SYNTHETIC_TEST_PASSWORD]" # dummy fixture only
+  internal_portal_label_a: "[INTERNAL_PORTAL_LABEL_A]"
+  internal_portal_label_b: "[INTERNAL_PORTAL_LABEL_B]"
+  internal_workflow_label: "[INTERNAL_WORKFLOW_LABEL]"
+  # Preserve genuine technical literals only in authorized ticket outputs,
+  # not repository examples. Remove confidential details before any web search.
+
+# Credentials/API tokens/private keys/recovery codes: NEVER configure here.
+# Use an approved secret store; no actual URLs, IDs or sample credentials in Git.

@@ -1,0 +1,12 @@
+PARN TERMINOLOGY TABLE
+Table version: 1
+Purpose: Approved prose terminology for PARN notes, technician notes, and client email. This reference is not evidence of ticket events.
+
+Alias | Preferred term | Required context
+S1 | antivirus | Clearly refers to the SentinelOne security product, not a device, site, or other identifier.
+SentinelOne | antivirus | Prose reference to the security product.
+Sentinel One | antivirus | Prose reference to the security product.
+
+One canonical output term is used: antivirus (not alternating AV and anti-virus).
+Literal paths, URLs, commands, filenames, registry keys, quoted errors, and other identifiers remain unchanged. Version numbers remain unchanged.
+No other mappings are approved. Add future rows only with the owner's approval. Replace obsolete rows rather than keeping conflicting versions of the table.
