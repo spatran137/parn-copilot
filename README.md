@@ -4,13 +4,17 @@
 
 I built PARN for the part of an IT ticket that comes after the troubleshooting. You can dictate what happened, add a screenshot if it helps, and get a draft you can review and paste into ConnectWise. PARN stands for **Problem, Action, Resolution, and Next Steps**.
 
-The agent drafts three copy-ready blocks:
+The agent drafts three separate copy blocks containing Markdown source:
 
 - **PARN Note** records what was reported, what you did, what you confirmed, and what still needs to happen.
 - **Suggested Internal Notes** captures useful attachment details, source links, and ideas you haven't tested yet.
 - **Client Follow-Up Email** gives you a subject and body when you ask for a draft. Otherwise it says `Not needed.`
 
-You review the output, then copy it into your ticket or email. There's no ConnectWise integration to install.
+Ask for “PARN only,” “Suggested Internal Notes only,” or “client email only” when you need one section. Use the block’s copy button, then preview the result in your ticket, Teams message, or email draft. Each editor handles Markdown differently. For email, copy the subject and body into their corresponding fields.
+
+An explicit email request defaults to Standard. Ask for Simple for plain language or Detailed for more technical context. The requested level carries over on the same ticket until you change it or cancel the draft.
+
+There's no ConnectWise integration to install.
 
 ## What you'll need
 
