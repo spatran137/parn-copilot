@@ -19,13 +19,17 @@ Use a fresh chat for each scenario and keep the follow-up turns together where s
 | --- | --- |
 | [Ticket closure and VPN](../tests/Ticket_Closure_Intent_Scenarios.md) | A pending client confirmation keeps the ticket open. Eligibility to close and a direction to close have different wording. An undecided technician gets a clarification before notes are drafted. |
 | [Performed work and attachments](../tests/Performed_Evidence_Scenarios.md) | Each dictated action and result stays intact. Unattributed screenshot evidence goes into internal notes. A material conflict triggers a question. |
-| [Email on demand](../tests/Client_Email_Scenarios.md) | The email block says `Not needed.` by default. An explicit request gets a Standard draft and a cancellation restores `Not needed.` while preserving the other notes. |
+| [Email on demand](../tests/Client_Email_Scenarios.md) | The email block says `Not needed.` by default. An explicit request gets a Standard draft unless Simple or Detailed is specified. Cancellation restores `Not needed.` while preserving the other notes. |
 | [Email attribution](../tests/Email_Attribution_Scenarios.md) | The email uses “I” for solo work, “we” for confirmed shared work, and neutral wording if the actor is unknown. |
 | [Same-ticket history](../tests/Ticket_History_Continuation_Scenarios.md) | A follow-up retains earlier actions and appends the new ones. A fresh ticket starts without the previous email request. |
 | Internal knowledge | An explicit request about a fictional procedure returns a relevant finding and an exact internal link in Suggested Internal Notes. A blocked lookup is described accurately. |
 | Vendor research | A fictional ticket with a product and version or error produces a source-backed internal suggestion. The web query uses generic technical facts and omits customer identifiers and credentials. |
 
 Also check that the terminology table changes prose only, with original product names or technical literals still available where required. Review generated output before using it in a real ticket and keep actual customer transcripts out of the repository.
+
+## Check Markdown output
+
+Use the [Markdown live test scenarios](../tests/Markdown_Output_Scenarios.md) to verify each copy control, single-section requests, and paste behavior in the intended editors. Run the closure scenarios against the same candidate and record the test agent’s actual output.
 
 ## Check the source and downloads
 
@@ -39,6 +43,7 @@ python3 tests/validate_email_attribution_rules.py
 python3 tests/validate_ticket_history_rules.py
 python3 tests/validate_performed_evidence_rules.py
 python3 tests/validate_ticket_closure_rules.py
+python3 tests/validate_markdown_output_rules.py
 ```
 
 After editing a skill, run `python3 scripts/build-skills.py --refresh` and include the updated ZIP in the same change. Each ZIP has `SKILL.md` at the root, plus any listed resources. The local checks validate the source and package structure. The Copilot trials above verify upload, skill use, citations, permissions, and response quality in your tenant.
