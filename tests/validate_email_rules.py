@@ -19,7 +19,7 @@ checks = {
     "Solo and joint attribution": "Use `I` for solo work; `we` only for proven joint work." in prompt,
     "Natural prose and formatting": "Conversational paragraphs; bullets only if helpful" in prompt,
     "Internal-only content excluded": "no raw logs/internal content" in prompt,
-    "Three output blocks retained": "return all three Markdown sections in order" in prompt,
+    "Three output blocks retained": "return all three sections in order" in prompt,
     "Twenty-four synthetic scenarios including archived": all(
         f"### {i}. " in cases for i in range(1, 25)
     ),

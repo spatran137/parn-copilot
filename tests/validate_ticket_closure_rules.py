@@ -8,7 +8,7 @@ next_steps = next((line for line in prompt.splitlines() if line.startswith("- Ne
 checks = {
     "LF <= 8,000 characters": len(prompt) <= 8000,
     "CRLF <= 8,000 characters": len(prompt.replace("\n", "\r\n")) <= 8000,
-    "Three output blocks": "return all three Markdown sections in order" in prompt,
+    "Three output blocks": "return all three sections in order" in prompt,
     "Closing is future intent": "`Closing ticket` is intent, NEVER `ticket closed` or `can close`" in next_steps,
     "Completed close is distinct": "`I closed` = completed Action" in next_steps,
     "Eligible close is distinct": "`can be closed` = eligible only" in next_steps,

@@ -11,7 +11,7 @@ resolution = next((line for line in prompt.splitlines() if line.startswith("- Re
 checks = {
     "LF instruction length <= 8,000": len(prompt) <= 8000,
     "CRLF instruction length <= 8,000": len(prompt.replace("\n", "\r\n")) <= 8000,
-    "Three output blocks retained": "return all three Markdown sections in order" in prompt,
+    "Three output blocks retained": "return all three sections in order" in prompt,
     "Attachment evidence is supplementary": "Performed results belong in PARN; raw logs stay internal" in prompt,
     "Every dictated test/result is an Action bullet": "Bullet EVERY dictated step/result" in action,
     "Action retains performed target and technical literals": all(

@@ -1,8 +1,10 @@
-# Markdown output live regression scenarios
+# Output format live regression scenarios
 
 Use a separate Microsoft Copilot test agent in **Think deeper** with the candidate instructions and the existing approved knowledge and skills. Start a new conversation for each numbered case. Keep messages in the same conversation when a case has multiple turns. Record the tested commit, configuration, actual output, and pass, fail, or blocked status using synthetic data only.
 
-## Acceptance for all final outputs
+## Markdown mode
+
+Leave the first instruction line set to `OUTPUT_FORMAT: markdown` for cases 1–7.
 
 - A full response has `## PARN Note`, `## Suggested Internal Notes`, and `## Client Follow-Up Email` in that order. PARN uses `### Problem`, `### Action`, `### Resolution`, and `### Next Steps` in order, with ordered-in-time `- ` Action bullets.
 - Explicit single-output requests show only that deliverable. A request to include a draft still returns all three sections.
@@ -119,3 +121,16 @@ In a new conversation, send:
 > On a fictional Windows test workstation, Windows Update reported 0x80070002. I have not tried a fix. Look up official Microsoft guidance and include the findings with the PARN response. Draft a Standard client follow-up email.
 
 Expect a verified, relevant official source and any proposed steps labeled not performed in the internal section. PARN and email use only ticket facts. If approved web access is unavailable or no official source can be verified, record the outcome rather than scoring retrieval as passed. [Issue #2](https://github.com/spatran137/parn-copilot/issues/2) covers broader knowledge and skill validation.
+
+## 8. Plain-text mode
+
+In the test agent's Instructions, change only the first line to `OUTPUT_FORMAT: plain_text` and save. Start a fresh chat for each rerun.
+
+| Rerun | What to check after Copy |
+| --- | --- |
+| Case 1, full response and PARN only | The full response has three independent blocks. The follow-up has one. The PARN block starts with `PARN Note:` and has `Problem:`, `Action:`, `Resolution:`, and `Next Steps:`, with `- ` Action bullets. The no-email block says `Not needed.` |
+| Case 3, app repair | The command is literal and the two supplied log lines keep their exact characters, order, and line breaks inside Suggested Internal Notes. |
+| Case 5, requested email | Copy a Standard draft and an email-only reply. The email retains the subject line, paragraph breaks, and I/we attribution. |
+| Case 6, access clarification | The question appears by itself. After the reply, only the PARN block appears, still in plain text. |
+
+Paste into a plain-text editor and then the intended ticket or email editor. Check that copied blocks have no added Markdown heading markers, inline backticks, inner fences, or escapes. Keep any punctuation that is part of supplied evidence. Record the Copilot surface and the result for each editor.

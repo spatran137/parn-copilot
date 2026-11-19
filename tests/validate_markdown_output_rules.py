@@ -1,4 +1,4 @@
-"""Check the Markdown prompt contract. These checks do not run Copilot."""
+"""Check the configurable output contract. These checks do not run Copilot."""
 from pathlib import Path
 import re
 
@@ -7,8 +7,24 @@ prompt = (root / "agent" / "ConnectWise_PARN_Agent_Instructions_Condensed.md").r
 output = prompt.split("# Required Output\n", 1)[1].split("# Accuracy and Safety\n", 1)[0]
 email = prompt.split("# Client Email Rules\n", 1)[1].split("# Research Skill\n", 1)[0]
 headings = re.findall(r"^#{2,3} .+$", output, re.M)
+format_rules = {
+    name: rule
+    for name, rule in re.findall(r"^- `([a-z_]+)`: (.+)$", output, re.M)
+}
+markdown = format_rules.get("markdown", "")
+plain_text = format_rules.get("plain_text", "")
 
 checks = {
+    "Output format is configurable on the first line": (
+        prompt.splitlines()[0] == "OUTPUT_FORMAT: markdown"
+        and "Use OUTPUT_FORMAT." in output
+        and set(format_rules) == {"markdown", "plain_text"}
+    ),
+    "Both settings fit the limit with CRLF line endings": all(
+        len(prompt.replace("OUTPUT_FORMAT: markdown", f"OUTPUT_FORMAT: {mode}", 1)
+            .replace("\n", "\r\n")) <= 8000
+        for mode in ("markdown", "plain_text")
+    ),
     "Markdown section and subsection order": headings == [
         "## PARN Note",
         "### Problem",
@@ -24,19 +40,26 @@ checks = {
     "Explicit single-section requests survive clarification": (
         "Honor section-only requests after clarification." in output
     ),
-    "Each deliverable gets its own Markdown code block": (
-        "Put each section in its own backtick fence (3+) labeled markdown" in output
-        and "Exact headings inside" in output
+    "Each deliverable gets a separate copy block in either format": (
+        "Backtick-fence each section." in output and "Fences exceed inner runs." in output
     ),
-    "No text outside deliverable fences and no HTML": "No text outside fences" in output
-    and "No HTML" in output,
+    "Markdown block uses source headings and formats evidence": (
+        "label fences `markdown`. Exact headings below" in markdown
+        and "inline code for literals" in markdown
+        and "tilde fences for multiline commands/logs" in markdown
+        and "Escape prose markup" in markdown
+    ),
+    "Plain text uses labels and literal evidence without added markup": (
+        "label fences `text`" in plain_text
+        and "labels with trailing colons and no #" in plain_text
+        and "No inline markup or inner fences" in plain_text
+        and "Keep commands/logs literal" in plain_text
+    ),
+    "No text outside deliverable fences and no HTML": "No outside text or HTML" in output,
     "Portable list and paragraph formatting": "`- ` bullets" in output
-    and "short paragraphs" in output and "Escape prose markup" in output,
-    "Inline literals and verbatim multiline evidence": "inline code for literals" in output
-    and "tilde fences for multiline commands/logs" in output
-    and "Fences exceed inner runs" in output,
+    and "short paragraphs" in output,
     "Quoted logs contain only supplied lines": "Copy designated lines only, excluding prior logs/prose." in output,
-    "Check and correct exact log quotes before output": "Match fence to source line for line; recopy on mismatch." in output,
+    "Check and correct exact log quotes before output": "Match source line for line; recopy on mismatch." in output,
     "Email subject and body are separated": "`Subject: ...`, blank line, then body" in output,
     "No-email marker is retained": "Without a draft: `Not needed.`" in output,
     "Email body uses restrained formatting": "Conversational paragraphs; bullets only if helpful" in email
@@ -56,5 +79,5 @@ checks = {
 
 for name, passed in checks.items():
     print(("PASS" if passed else "FAIL") + ": " + name)
-print(f"{sum(checks.values())}/{len(checks)} static Markdown checks passed. Copilot behavior not tested.")
+print(f"{sum(checks.values())}/{len(checks)} static output format checks passed. Copilot behavior not tested.")
 raise SystemExit(0 if all(checks.values()) else 1)

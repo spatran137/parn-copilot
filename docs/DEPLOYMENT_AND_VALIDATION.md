@@ -27,9 +27,9 @@ Use a fresh chat for each scenario and keep the follow-up turns together where s
 
 Also check that the terminology table changes prose only, with original product names or technical literals still available where required. Review generated output before using it in a real ticket and keep actual customer transcripts out of the repository.
 
-## Check Markdown output
+## Check both output formats
 
-Use the [Markdown live test scenarios](../tests/Markdown_Output_Scenarios.md) to verify each copy control, single-section requests, and paste behavior in the intended editors. Run the closure scenarios against the same candidate and record the test agent’s actual output.
+Use the [output format live scenarios](../tests/Markdown_Output_Scenarios.md) to verify each copy control, single-section requests, and paste behavior in the intended editors. Start with `OUTPUT_FORMAT: markdown`, then switch the first line of the test agent's instructions to `OUTPUT_FORMAT: plain_text` and start a fresh chat. Run the closure scenarios against the same candidate and record the setting and actual output.
 
 ## Check the source and downloads
 
