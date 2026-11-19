@@ -16,13 +16,15 @@ Leave the first instruction line set to `OUTPUT_FORMAT: markdown` for cases 1–
 
 > The user reported their label printer was offline. I reconnected its loose USB cable and printed a test label successfully. The printer worked afterward. No further action is needed.
 
-Expect all three sections. Action captures the cable reconnection and the successful test print. Resolution records restored printing. Next Steps may report that no further action is needed. It must not imply closure. The email section says `Not needed.` without a question.
+Expect all three sections immediately. A closure question fails this case. Action captures the cable reconnection and the successful test print. Resolution records restored printing. Next Steps may report that no further action is needed. It must not imply closure. The email section says `Not needed.` without a question.
 
 Then send:
 
 > Return only the PARN Note for this ticket.
 
 Expect one copyable code block with the same four headings and facts. The copied source starts with `## PARN Note` and includes `### Action` and its `- ` bullets. If other sections appear, record which headings appeared in chat and which came through Copy. For a direct comparison, run the initial prompt in both production and the test agent and record which views expose independent copy controls.
+
+In one reported test run, the initial printer prompt triggered `Close ticket or leave open?`. An explicit `close` reply then produced planned closure, and the single-section follow-up displayed only PARN. Repeat the original prompt in a fresh chat and confirm it drafts immediately. Verify Copy separately.
 
 ## 2. VPN closure and clarification
 
