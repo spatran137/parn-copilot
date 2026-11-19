@@ -11,7 +11,7 @@ resolution = next((line for line in prompt.splitlines() if line.startswith("- Re
 checks = {
     "LF instruction length <= 8,000": len(prompt) <= 8000,
     "CRLF instruction length <= 8,000": len(prompt.replace("\n", "\r\n")) <= 8000,
-    "Three output blocks retained": "return exactly three plain-text code blocks" in prompt,
+    "Three output blocks retained": "return all three sections in order" in prompt,
     "Attachment evidence is supplementary": "Performed results belong in PARN; raw logs stay internal" in prompt,
     "Every dictated test/result is an Action bullet": "Bullet EVERY dictated step/result" in action,
     "Action retains performed target and technical literals": all(
@@ -40,7 +40,7 @@ checks = {
     "Unattributed client confirmation rejected": "The user confirmed" in cases and "I verified application access" in cases,
     "Screenshot-only test forbids inferred technician action": "Screenshot-only command/results:" in prompt and "`Attachment review` ONLY" in prompt and "not technician Action" in prompt,
     "Contradictory screenshot blocks email choice": "For dictated vs screenshot conflict" in prompt and "STOP before final notes" in prompt,
-    "Conflicting evidence requires confirmation before final output": "request confirmation and STOP before final output" in prompt,
+    "Conflicting evidence requires confirmation before final output": "If attachment and dictation conflict, keep both internally; request confirmation and STOP." in prompt,
     "Failed ping observation retained without invented operator": "including failed or unattributed tests" in action and "never invent a ping operator" in action,
     "No invented client confirmation or retest": "Never invent work, retests, client contact" in prompt,
     "Reported access is not client conversation": "`user can access` isn\u0027t `confirmed with client`" in prompt,

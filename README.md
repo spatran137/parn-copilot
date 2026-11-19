@@ -4,13 +4,17 @@
 
 I built PARN for the part of an IT ticket that comes after the troubleshooting. You can dictate what happened, add a screenshot if it helps, and get a draft you can review and paste into ConnectWise. PARN stands for **Problem, Action, Resolution, and Next Steps**.
 
-The agent drafts three copy-ready blocks:
+The agent drafts three separate copy blocks:
 
 - **PARN Note** records what was reported, what you did, what you confirmed, and what still needs to happen.
 - **Suggested Internal Notes** captures useful attachment details, source links, and ideas you haven't tested yet.
 - **Client Follow-Up Email** gives you a subject and body when you ask for a draft. Otherwise it says `Not needed.`
 
-You review the output, then copy it into your ticket or email. There's no ConnectWise integration to install.
+Ask for “PARN only,” “Suggested Internal Notes only,” or “client email only” when you need one section. Use the block’s copy button, then preview the result in your ticket, Teams message, or email draft. For email, copy the subject and body into their corresponding fields.
+
+An explicit email request defaults to Standard. Ask for Simple for plain language or Detailed for more technical context. The requested level carries over on the same ticket until you change it or cancel the draft.
+
+There's no ConnectWise integration to install.
 
 ## What you'll need
 
@@ -21,7 +25,7 @@ You review the output, then copy it into your ticket or email. There's no Connec
 ## Set up the agent
 
 1. In Microsoft 365 Copilot, choose **New agent** and **Skip to configure**. Name it **PARN Copilot Agent**.
-2. Open the [agent instructions](agent/ConnectWise_PARN_Agent_Instructions_Condensed.md), select **Raw**, and paste the entire text into **Instructions**.
+2. Open the [agent instructions](agent/ConnectWise_PARN_Agent_Instructions_Condensed.md), select **Raw**, and paste the entire text into **Instructions**. Leave the first line as `OUTPUT_FORMAT: markdown` to copy Markdown source. If your ticket editor expects plain text, change that line to `OUTPUT_FORMAT: plain_text` before saving the agent. Both settings give each section its own Copy button.
 3. Under **Knowledge**, upload the [terminology table](agent/knowledge/PARN_Terminology_Table.txt) if your tenant supports embedded files. Review the table first. It maps SentinelOne to “antivirus” in prose. If your team uses different terms, adjust the table before uploading it.
 4. Under **Skills**, choose **Add** and upload the ZIPs you want to use, one at a time. On GitHub, open each ZIP and select **Download raw file**. Upload the ZIP as downloaded.
 

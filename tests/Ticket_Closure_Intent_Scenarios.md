@@ -19,8 +19,8 @@ Reject: `Ticket closed.` or `I will close the ticket.` without support.
 
 ### 4. No further action is not a close instruction
 Dictation: "The maintenance check passed. No further action required."
-Expected: Report the check and no further action. Do not invent a completed or planned closure.
-Reject: `Closing ticket.` or `Ticket closed.`
+Expected: Draft immediately without a closure question. Report the check and no further action.
+Reject: `Close ticket or leave open?`, `Closing ticket.`, or `Ticket closed.`
 
 ### 5. Conditional closure
 Dictation: "The VPN is configured. Close the ticket after the client confirms database access."

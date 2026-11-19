@@ -17,7 +17,7 @@ checks = {
     "Missing prior context prompts request": "ask for them; don't guess" in workflow,
     "New-ticket context separation": "New ticket starts fresh" in workflow,
     "Retest safety preserved": "client confirmation is NOT a technician retest" in prompt,
-    "Explicit on-demand request retained": "Carry request on same ticket until changed" in prompt,
+    "Explicit on-demand request retained": "Carry request/level on same ticket until changed" in prompt,
     "Email-only output does not rewrite history": "Email-only turns must preserve PARN/internal blocks verbatim" in prompt,
     "Five synthetic scenarios": all(f"## {n}. " in cases for n in range(1, 6)),
     "VPN callback history": "VPN installation followed by database callback" in cases and "drops earlier VPN" in cases,
