@@ -21,11 +21,14 @@ checks = {
     "Markdown headings have blank-line separation": all(
         f"\n\n{heading}\n\n" in output for heading in headings
     ),
-    "Explicit single-section requests omit other sections": "unless asked to omit others" in output,
+    "Explicit single-section requests survive clarification": (
+        "Honor section-only requests after clarification." in output
+    ),
     "Each deliverable gets its own Markdown code block": (
         "Put each section in its own backtick fence (3+) labeled markdown" in output
+        and "Exact headings inside" in output
     ),
-    "No text outside deliverable fences and no HTML": "no text outside fences" in output
+    "No text outside deliverable fences and no HTML": "No text outside fences" in output
     and "No HTML" in output,
     "Portable list and paragraph formatting": "`- ` bullets" in output
     and "short paragraphs" in output and "Escape prose markup" in output,

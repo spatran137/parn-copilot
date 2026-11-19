@@ -6,8 +6,9 @@ Use a separate Microsoft Copilot test agent in **Think deeper** with the candida
 
 - A full response has `## PARN Note`, `## Suggested Internal Notes`, and `## Client Follow-Up Email` in that order. PARN uses `### Problem`, `### Action`, `### Resolution`, and `### Next Steps` in order, with ordered-in-time `- ` Action bullets.
 - Explicit single-output requests show only that deliverable. A request to include a draft still returns all three sections.
-- Each deliverable appears in its own Markdown code block with its own copy control. The headings are visible as literal Markdown inside the block. Inline-rendered headings or a single combined code block fail. The full response, including fences, stays within 8,000 characters.
-- Use each block’s copy control and paste into a plain-text editor first. Expect the Markdown source, including heading markers, without the outer fences or other sections. Then preview PARN and internal notes in a test ConnectWise ticket and Teams draft. Paste the subject and body into the corresponding fields in an unsent email draft. Check line breaks and literal evidence on each surface, and record how it handles the Markdown.
+- Each deliverable has its own Markdown code block and copy control. Copilot may render a preview inside a block. Headings rendered directly in the chat without a dedicated copy control fail, as does a single combined code block. The full response, including fences, stays within 8,000 characters.
+- Use each block’s Copy control and paste into a plain-text editor first. Expect the Markdown source, including heading markers, without the outer fences or other sections. If Copilot offers **Show code**, try Copy in the default view first, then switch to **Show code** and repeat. Record which view gives you literal headings and list markers. If only **Show code** works, record the extra step. If neither view works, mark the copy check as failed.
+- Preview the copied PARN and internal notes in a test ConnectWise ticket and a Teams draft. Paste the email subject and body into their fields in an unsent draft. Record the Copilot surface, whether each block copied independently, and how each destination handled line breaks and literal evidence.
 
 ## 1. Resolved ticket and PARN-only output
 
@@ -19,7 +20,7 @@ Then send:
 
 > Return only the PARN Note for this ticket.
 
-Expect one copyable code block with the same four headings and facts. For a direct comparison, run the first prompt in both production and the test agent. The test agent should have the same independent copy controls as production and the copied text should include the Markdown heading markers.
+Expect one copyable code block with the same four headings and facts. The copied source starts with `## PARN Note` and includes `### Action` and its `- ` bullets. If other sections appear, record which headings appeared in chat and which came through Copy. For a direct comparison, run the initial prompt in both production and the test agent and record which views expose independent copy controls.
 
 ## 2. VPN closure and clarification
 
